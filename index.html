@@ -31,28 +31,29 @@
   <script>
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
+  const card = document.querySelector(".card");
 
   // ✅ 'Yes' क्लिक -> दुसऱ्या पेजवर जा
   yesBtn.addEventListener("click", () => {
     window.location.href = "send-number.html";
   });
 
-  // ✅ नवीन सुधारलेली 'moveButton()' function
+  // ✅ 'No' बटण कार्डच्या आतच हलव
   function moveButton() {
+    const cardRect = card.getBoundingClientRect();
     const btnWidth = noBtn.offsetWidth;
     const btnHeight = noBtn.offsetHeight;
-    const padding = 30; // स्क्रीनच्या कडांपासून अंतर
+    const padding = 10; // थोडं अंतर ठेवण्यासाठी
 
-    // X आणि Y नेहमी दिसणाऱ्या भागात राहतील
-    const x = Math.random() * (window.innerWidth - btnWidth - padding);
-    const y = Math.random() * (window.innerHeight - btnHeight - padding);
+    const x =
+      Math.random() * (cardRect.width - btnWidth - padding * 2) + padding;
+    const y =
+      Math.random() * (cardRect.height - btnHeight - padding * 2) + padding;
 
     noBtn.style.position = "absolute";
     noBtn.style.left = `${x}px`;
     noBtn.style.top = `${y}px`;
-
-    // जर बटण फार खाली गेलं तर ते वर आण
-    noBtn.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    noBtn.style.transition = "0.2s";
   }
 
   // 💻 Laptop साठी hover वर हलव
@@ -60,22 +61,21 @@
 
   // 📱 Mobile साठी touch केल्यावर हलव
   noBtn.addEventListener("touchstart", (e) => {
-    e.preventDefault(); // accidental click टाळण्यासाठी
+    e.preventDefault();
     moveButton();
   });
 
-  // 🖱️ Mouse जवळ आलं की बटण हलवा (सतत पळत राहण्यासाठी)
+  // 🖱️ Mouse जवळ आलं की बटण हलवा
   document.addEventListener("mousemove", (e) => {
     const rect = noBtn.getBoundingClientRect();
     const distance = Math.hypot(
       e.clientX - (rect.left + rect.width / 2),
       e.clientY - (rect.top + rect.height / 2)
     );
-    if (distance < 10) {
-      moveButton();
-    }
+    if (distance < 60) moveButton();
   });
 </script>
+
 
 </body>
 </html>

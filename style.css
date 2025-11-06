@@ -25,6 +25,8 @@ body {
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   width: 320px;
   animation: fadeIn 1.2s ease-in-out;
+  position: relative; /* बटण कार्डच्या आत हलू शकेल */
+  overflow: hidden; 
 }
 
 .card:hover {
