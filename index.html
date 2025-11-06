@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Will You Be Mine?</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      overflow: hidden; /* बटण स्क्रीनच्या बाहेर जाऊ नये */
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -23,58 +28,44 @@
     </div>
   </div>
 
-
   <script>
-  const yesBtn = document.getElementById("yesBtn");
-  const noBtn = document.getElementById("noBtn");
-
-  // YES बटण क्लिक -> दुसऱ्या पेजवर जा
-  yesBtn.addEventListener("click", () => {
-    window.location.href = "send-number.html";
-  });
-
-  // Random जागेवर बटण हलवणारी function
-  function moveButton() {
-    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-    noBtn.style.position = "absolute";
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
-  }
-
-  // Mouse साठी
-  noBtn.addEventListener("mouseover", moveButton);
-
-  // Mobile touch साठी
-  noBtn.addEventListener("touchstart", moveButton);
-
-  // Extra: जर बोट जवळ आलं (mousemove equivalent)
-  document.addEventListener("touchmove", (e) => {
-    const touch = e.touches[0];
-    const rect = noBtn.getBoundingClientRect();
-    const distance = Math.hypot(
-      touch.clientX - (rect.left + rect.width / 2),
-      touch.clientY - (rect.top + rect.height / 2)
-    );
-    if (distance < 80) moveButton(); // mobile साठी थोडं जास्त अंतर
-  });
-</script>
-
-  <!-- <script>
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
 
+    // ✅ 'Yes' क्लिक -> दुसऱ्या पेजवर जा
     yesBtn.addEventListener("click", () => {
-      window.location.href = "send-number.html"; // दुसऱ्या पेजवर नेईल ✅
+      window.location.href = "send-number.html";
     });
 
-    noBtn.addEventListener("mouseover", () => {
-      const x = Math.random() * window.innerWidth * 0.7;
-      const y = Math.random() * window.innerHeight * 0.7;
+    // Random जागेवर 'No' बटण हलवणारी function
+    function moveButton() {
+      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
+      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
       noBtn.style.position = "absolute";
       noBtn.style.left = `${x}px`;
       noBtn.style.top = `${y}px`;
+    }
+
+    // Laptop साठी hover वर हलव
+    noBtn.addEventListener("mouseover", moveButton);
+
+    // Mobile साठी touch केल्यावर हलव
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault(); // accidental click टाळण्यासाठी
+      moveButton();
     });
-  </script> -->
+
+    // Mouse जवळ आलं की बटण हलवा (सतत पळत राहण्यासाठी)
+    document.addEventListener("mousemove", (e) => {
+      const rect = noBtn.getBoundingClientRect();
+      const distance = Math.hypot(
+        e.clientX - (rect.left + rect.width / 2),
+        e.clientY - (rect.top + rect.height / 2)
+      );
+      if (distance < 60) {
+        moveButton();
+      }
+    });
+  </script>
 </body>
 </html>
